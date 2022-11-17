@@ -70,12 +70,12 @@ def edit_post(request, ticket_id):
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
                 edit_form.save()
-                return redirect('reviews-home')
+                return redirect('home')
             if 'delete_post' in request.POST:
                 delete_form = forms.DeletePostForm(request.POST)
                 if delete_form.is_valid():
                     ticket.delete()
-                    return redirect('reviews-home')
+                    return redirect('home')
     context = {'edit_form': edit_form,
                'delete_form': delete_form
                }
@@ -83,14 +83,14 @@ def edit_post(request, ticket_id):
 
 @login_required
 def reply_to_ticket(request, ticket_id):
-    new_review = models.Review()
-    review_form = forms.ReviewForm(instance=new_review)
+    to_ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    review_form = forms.ReviewForm(instance=to_ticket)
     if request.method == "POST":
-        review_form = forms.ReviewForm(request.POST, instance=new_review)
+        review_form = forms.ReviewForm(request.POST, instance=to_ticket)
         if review_form.is_valid():
             new_review = review_form.save(commit=False)
             new_review.user = request.user
             new_review.ticket = ticket_id
             new_review.save()
-            return redirect('reviews-home')
+            return redirect('home')
     return render(request, 'reply_ticket.html', context={'review_form': review_form})

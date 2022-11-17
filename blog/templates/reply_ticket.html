@@ -2,8 +2,12 @@
 {% block content %}
     <h2>Répondre à une critique</h2>
     <sub> vous êtes en train de poster en réponse à:</sub>
-    <div> class="ticketUser">
-
+    <div class="ticketUser">
+        {% for ticket_id in tickets %}
+            <sub>{{ticket.user}} a demandé une critique - {{ticket.time_created}}</sub>
+            <h3>{{ticket.title}}</h3>
+            <p>{{ticket.description}}</p>
+        {% endfor %}
     </div>
         <form method="POST" enctype="multipart/form-data">
             {{ review_form.as_p }}
