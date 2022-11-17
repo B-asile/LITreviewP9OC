@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from blog.models import Ticket, UserFollows, Review
+
+admin.site.register(Ticket),
+admin.site.register(UserFollows),
+admin.site.register(Review)

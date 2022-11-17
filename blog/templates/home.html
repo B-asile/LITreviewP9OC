@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav>
+        <a href="{% url 'reviews-create_ticket' %}">Demander une critique</a>
+        <a href="{% url 'reviews-create_review' %}">Créer une critique</a>
+        <a href="{% url 'reviews-follow_user' %}">Suivre des utilisateurs</a>
+    </nav>
+    <section>
+    <div class="post">
+        {% for ticket in tickets %}
+            <sub>{{ticket.user}} a demandé une critique - {{ticket.time_created}}</sub>
+            <h3>{{ticket.title}}</h3>
+            <p>{{ticket.description}}</p>
+            {% if ticket.image %}
+                <img src="{{ticket.image.url}}">
+            {% endif %}
+        {% endfor %}
+        <hr>
+    </div>
+    </section>
+{% endblock content %}

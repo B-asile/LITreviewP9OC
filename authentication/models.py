@@ -11,3 +11,5 @@ class User(AbstractUser):
     )
 
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='rôle')
+
+    follows = models.ManyToManyField('self', symmetrical=False)

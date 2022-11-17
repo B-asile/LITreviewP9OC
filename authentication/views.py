@@ -12,7 +12,7 @@ def login_page(request):
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
-                return redirect('reviews-home')
+                return redirect('home')
             else:
                 message = 'Identifiant ou mot de passe invalide'
     return render(
@@ -28,7 +28,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request,user)
-            return redirect('reviews-home')
+            return redirect('home')
     return render(request, "signup.html", context={'form': form})
 
 def logout_user(request):
