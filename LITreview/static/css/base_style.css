@@ -90,7 +90,7 @@ nav {
     margin: 40px;
 }
 
-div {
+div .post{
     border: 2px solid lightslategrey;
     margin-right: 15%;
     margin-left: 15%;

@@ -9,7 +9,7 @@ class Ticket(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ImageField(null=True, blank=True, upload_to='OcLitReview')
+    image = models.ImageField(null=True, blank=True, upload_to='mediaLitReview')
     time_created = models.DateTimeField(auto_now_add=True)
 
     IMAGE_MAX_SIZE = (300, 300)
@@ -27,7 +27,7 @@ class UserFollows(models.Model):
     user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='user_following')
     followed_user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE,
-                             related_name='following_user')
+                             related_name='followed_by')
     class Meta():
         unique_together=('user', 'followed_user')
 

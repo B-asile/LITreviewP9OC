@@ -30,3 +30,6 @@ class FollowUsersForm(forms.ModelForm):
     class Meta:
         model = user
         fields = ['follows']
+
+class DeletePostForm(forms.Form):
+    delete_post = forms.BooleanField(widget=forms.HiddenInput, initial=True)

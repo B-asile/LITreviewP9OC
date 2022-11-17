@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Répondre à une critique</h2>
+    <sub> vous êtes en train de poster en réponse à:</sub>
+    <div> class="ticketUser">
+
+    </div>
+        <form method="POST" enctype="multipart/form-data">
+            {{ review_form.as_p }}
+            {% csrf_token %}
+            <button type="submit">Publier</button>
+        </form>
+{% endblock content %}

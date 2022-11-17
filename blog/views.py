@@ -1,6 +1,6 @@
 from itertools import chain
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from . import models, forms
@@ -59,3 +59,38 @@ def follow_users(request):
             form.save()
             return redirect('home')
     return render(request, 'followUser.html', context={'form': form})
+
+@login_required
+def edit_post(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    edit_form = forms.TicketForm(instance=ticket)
+    delete_form = forms.DeletePostForm()
+    if request.method == 'POST':
+        if 'edit_post' in request.POST:
+            edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('reviews-home')
+            if 'delete_post' in request.POST:
+                delete_form = forms.DeletePostForm(request.POST)
+                if delete_form.is_valid():
+                    ticket.delete()
+                    return redirect('reviews-home')
+    context = {'edit_form': edit_form,
+               'delete_form': delete_form
+               }
+    return render(request, 'edit.html', context=context)
+
+@login_required
+def reply_to_ticket(request, ticket_id):
+    new_review = models.Review()
+    review_form = forms.ReviewForm(instance=new_review)
+    if request.method == "POST":
+        review_form = forms.ReviewForm(request.POST, instance=new_review)
+        if review_form.is_valid():
+            new_review = review_form.save(commit=False)
+            new_review.user = request.user
+            new_review.ticket = ticket_id
+            new_review.save()
+            return redirect('reviews-home')
+    return render(request, 'reply_ticket.html', context={'review_form': review_form})

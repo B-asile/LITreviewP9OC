@@ -14,6 +14,11 @@
             {% if ticket.image %}
                 <img src="{{ticket.image.url}}">
             {% endif %}
+            {% if ticket.user == user %}
+                <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a></p>
+            {% else %}
+                <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
+            {% endif %}
         {% endfor %}
         <hr>
     </div>
