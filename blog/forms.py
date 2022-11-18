@@ -14,7 +14,7 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    edit_post = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     #rating = forms.ChoiceField(choices=SELECT_RATING, widget=forms.CheckboxSelectMultiple())
     rating = forms.IntegerField(min_value=0, max_value=5)
     class Meta():
