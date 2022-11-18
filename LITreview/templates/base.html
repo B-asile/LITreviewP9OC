@@ -9,10 +9,7 @@
     <body>
         <h1>LIT Review</h1>
         <section>
-            {% if user.is_authenticated %}
-                <em>Hello {{request.user}}!</em>
                 <a href="{% url 'logout_user' %}">Se déconnecter</a>
-            {% endif %}
         </section>
         {% block content %}
         {% endblock content %}

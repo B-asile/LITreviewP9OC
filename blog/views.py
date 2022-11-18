@@ -83,14 +83,14 @@ def edit_post(request, ticket_id):
 
 @login_required
 def reply_to_ticket(request, ticket_id):
-    to_ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    review_form = forms.ReviewForm(instance=to_ticket)
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    review_form = forms.ReviewForm()
     if request.method == "POST":
-        review_form = forms.ReviewForm(request.POST, instance=to_ticket)
+        review_form = forms.ReviewForm(request.POST)
         if review_form.is_valid():
-            new_review = review_form.save(commit=False)
-            new_review.user = request.user
-            new_review.ticket = ticket_id
-            new_review.save()
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
             return redirect('home')
     return render(request, 'reply_ticket.html', context={'review_form': review_form})

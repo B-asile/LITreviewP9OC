@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+
+        {% if user.is_authenticated %}
+                <em>Hello {{request.user}}!</em>
+        {% endif %}
     <nav>
         <a href="{% url 'reviews-create_ticket' %}">Demander une critique</a>
         <a href="{% url 'reviews-create_review' %}">Créer une critique</a>
