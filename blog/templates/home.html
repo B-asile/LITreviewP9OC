@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-
+    <section>
         {% if user.is_authenticated %}
                 <em>Hello {{request.user}}!</em>
+                <a href="{% url 'logout_user' %}">Se déconnecter</a>
         {% endif %}
+    </section>
     <nav>
         <a href="{% url 'reviews-create_ticket' %}">Demander une critique</a>
         <a href="{% url 'reviews-create_review' %}">Créer une critique</a>
@@ -18,12 +20,19 @@
             {% if ticket.image %}
                 <img src="{{ticket.image.url}}">
             {% endif %}
-            {% if ticket.user == user %}
+            {% if perms.edit_ticket %}
                 <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a></p>
             {% else %}
                 <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
             {% endif %}
+            {% for review in reviews %}
+                <sub>{{review.user}} - {{review.time_created}}</sub>
+                <h3>{{review.headline}}</h3>
+                <p>{{review.rating}}</p>
+            {% endfor %}
         {% endfor %}
+
+
         <hr>
     </div>
     </section>

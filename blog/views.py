@@ -1,7 +1,7 @@
 from itertools import chain
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from . import models, forms
 
@@ -60,16 +60,19 @@ def follow_users(request):
             return redirect('home')
     return render(request, 'followUser.html', context={'form': form})
 
+
 @login_required
-def edit_post(request, ticket_id):
+def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
     delete_form = forms.DeletePostForm()
     if request.method == 'POST':
-        if 'edit_post' in request.POST:
+        if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
-                edit_form.save()
+                new_ticket = edit_form.save(commit=False)
+                new_ticket.ticket = ticket
+                new_ticket.save()
                 return redirect('home')
             if 'delete_post' in request.POST:
                 delete_form = forms.DeletePostForm(request.POST)
