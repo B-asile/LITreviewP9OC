@@ -1,4 +1,5 @@
 from itertools import chain
+from django.db.models import Q
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -8,15 +9,16 @@ from . import models, forms
 
 @login_required
 def home(request):
-    tickets = models.Ticket.objects.all()
-    reviews = models.Review.objects.all()
+    tickets = models.Ticket.objects.filter(
+        Q(user__in=request.user.follows) | Q(starred=True))
+    reviews = models.Review.objects.filter(user__in=request.user.follows).exclude(ticket__in=tickets)
     tickets_and_reviews = sorted(chain(tickets, reviews),
-                                 key=lambda element: element.time_created,
+                                 key=lambda instance: instance.time_created,
                                  reverse=True)
-    return render(request, 'home.html', context={'tickets': tickets,
-                                                 'reviews': reviews})
+    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
 
 @login_required
+@permission_required('add_ticket', raise_exception=True)
 def create_ticket(request):
     ticket_form = forms.TicketForm()
     if request.method == "POST":
@@ -62,6 +64,7 @@ def follow_users(request):
 
 
 @login_required
+@permission_required('change_ticket', raise_exception=True)
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
@@ -70,14 +73,12 @@ def edit_ticket(request, ticket_id):
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
-                new_ticket = edit_form.save(commit=False)
-                new_ticket.ticket = ticket
-                new_ticket.save()
+                edit_form.save(commit=False)
                 return redirect('home')
             if 'delete_post' in request.POST:
                 delete_form = forms.DeletePostForm(request.POST)
                 if delete_form.is_valid():
-                    ticket.delete()
+                    ticket.delete(instance=ticket)
                     return redirect('home')
     context = {'edit_form': edit_form,
                'delete_form': delete_form
