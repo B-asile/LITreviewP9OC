@@ -9,13 +9,14 @@ from . import models, forms
 
 @login_required
 def home(request):
-    tickets = models.Ticket.objects.filter(
-        Q(user__in=request.user.follows) | Q(starred=True))
-    reviews = models.Review.objects.filter(user__in=request.user.follows).exclude(ticket__in=tickets)
+    tickets = models.Ticket.objects.all()
+
+    reviews = models.Review.objects.all()
     tickets_and_reviews = sorted(chain(tickets, reviews),
                                  key=lambda instance: instance.time_created,
                                  reverse=True)
-    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
+    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews
+                                                 })
 
 @login_required
 @permission_required('add_ticket', raise_exception=True)
@@ -54,11 +55,14 @@ def create_review(request):
 
 @login_required
 def follow_users(request):
-    form = forms.FollowUsersForm(instance=request.user)
+    form = forms.FollowUsersForm()
     if request.method == 'POST':
-        form = forms.FollowUsersForm(request.POST, instance=request.user)
+        form = forms.FollowUsersForm(request.POST)
         if form.is_valid():
-            form.save()
+            follow_users = form.save(commit=False)
+            follow_users.user = request.user
+            print(follow_users.user)
+            follow_users.save()
             return redirect('home')
     return render(request, 'followUser.html', context={'form': form})
 

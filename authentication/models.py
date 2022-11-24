@@ -12,8 +12,6 @@ class User(AbstractUser):
 
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='rôle')
 
-    follows = models.ManyToManyField('self', symmetrical=False, verbose_name='suit')
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.role == self.CREATOR:

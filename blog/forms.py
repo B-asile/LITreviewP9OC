@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from .models import Ticket, Review
+from authentication.models import User
+from .models import Ticket, Review, UserFollows
 
 user = get_user_model()
 
@@ -28,8 +29,8 @@ class ReviewForm(forms.ModelForm):
 
 class FollowUsersForm(forms.ModelForm):
     class Meta:
-        model = user
-        fields = ['follows']
+        model = UserFollows
+        fields = ['followed_user']
 
 class DeletePostForm(forms.Form):
     delete_post = forms.BooleanField(widget=forms.HiddenInput, initial=True)
