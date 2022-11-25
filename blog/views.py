@@ -15,7 +15,9 @@ def home(request):
     tickets_and_reviews = sorted(chain(tickets, reviews),
                                  key=lambda instance: instance.time_created,
                                  reverse=True)
-    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews
+    return render(request, 'home.html', context={'tickets': tickets,
+                                                 'reviews': reviews,
+                                                 'tickets_and_reviews': tickets_and_reviews
                                                  })
 
 @login_required
@@ -56,15 +58,21 @@ def create_review(request):
 @login_required
 def follow_users(request):
     form = forms.FollowUsersForm()
+    if models.UserFollows.objects.filter(user=request.user):
+        followed = models.UserFollows.objects.filter(user=request.user)
     if request.method == 'POST':
         form = forms.FollowUsersForm(request.POST)
-        if form.is_valid():
-            follow_users = form.save(commit=False)
-            follow_users.user = request.user
-            print(follow_users.user)
-            follow_users.save()
-            return redirect('home')
-    return render(request, 'followUser.html', context={'form': form})
+        try:
+            if form.is_valid():
+                follow_users = form.save(commit=False)
+                follow_users.user = request.user
+                print(follow_users.user)
+                follow_users.save()
+                return redirect('home')
+        except ValueError as e:
+                error = str(e)
+                return render(request, 'followUser.html', context={'error': error})
+    return render(request, 'followUser.html', context={'form': form, 'followed': followed})
 
 
 @login_required
@@ -77,17 +85,19 @@ def edit_ticket(request, ticket_id):
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
             if edit_form.is_valid():
-                edit_form.save(commit=False)
+                ticket = edit_form.save(commit=False)
+                ticket.save()
                 return redirect('home')
             if 'delete_post' in request.POST:
                 delete_form = forms.DeletePostForm(request.POST)
                 if delete_form.is_valid():
-                    ticket.delete(instance=ticket)
+                    ticket.delete()
                     return redirect('home')
     context = {'edit_form': edit_form,
                'delete_form': delete_form
                }
     return render(request, 'edit.html', context=context)
+
 
 @login_required
 def reply_to_ticket(request, ticket_id):

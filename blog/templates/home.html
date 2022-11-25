@@ -22,9 +22,8 @@
             {% endif %}
             {% if perms.change_ticket %}
                 <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a></p>
-            {% else %}
-                <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
             {% endif %}
+                <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
             {% for review in reviews %}
                 <sub>{{review.user}} - {{review.time_created}}</sub>
                 <h3>{{review.headline}}</h3>

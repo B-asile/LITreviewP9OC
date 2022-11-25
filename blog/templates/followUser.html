@@ -7,6 +7,17 @@
         <button type="submit" >Confirmer</button>
     </form>
     <h2>Abonnement</h2>
+    {% if followed %}
+    {% for followed_user in user_follows %}
+        <div class="follow">
+            <p>{{ follow_users.followed_user }}<a href=""><button>Désabonner</button></a></p>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div>
+            <p class="no_follow">Vous ne suivez personne pour l'instant !</p>
+        </div>
+    {% endif %}
 
     <h2>Abonnés</h2>
 {% endblock content %}

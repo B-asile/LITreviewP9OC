@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Modifier</h2>
     <form method="post">
+        <h2>Modifier</h2>
         {{ edit_form.as_p }}
         {% csrf_token %}
         <button type="submit" >Sauvegarder</button>
     </form>
-    <form  method="post">
+    <form  action='' method="post">
+        <h2>Supprimer la demande de critique ?</h2>
         {{ delete_form }}
         {% csrf_token %}
         <button type="submit" >Supprimer</button>
