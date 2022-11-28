@@ -8,10 +8,11 @@
     </form>
     <h2>Abonnement</h2>
     {% if followed %}
-    {% for followed_user in user_follows %}
-        <div class="follow">
-            <p>{{ follow_users.followed_user }}<a href=""><button>Désabonner</button></a></p>
-        </div>
+    {% for follow_users in followed %}
+    <div class="follow">
+        <p </p>
+        <p> {{ follow_users.followed_user }} - <a href=""><button>se désabonner</button></a></p>
+    </div>
     {% endfor %}
     {% else %}
         <div>
@@ -20,4 +21,15 @@
     {% endif %}
 
     <h2>Abonnés</h2>
+    {% if following %}
+    {% for follow_users in following %}
+        <div class="follow">
+            <p class="user">{{ follow_users.user }} vous suit.</p>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div class="no_follow">
+            <p>Personne de vous suit pour l'instant !</p>
+        </div>
+    {% endif %}
 {% endblock content %}

@@ -57,22 +57,23 @@ def create_review(request):
 
 @login_required
 def follow_users(request):
-    form = forms.FollowUsersForm()
-    if models.UserFollows.objects.filter(user=request.user):
-        followed = models.UserFollows.objects.filter(user=request.user)
+    global form, followed
     if request.method == 'POST':
-        form = forms.FollowUsersForm(request.POST)
         try:
+            form = forms.FollowUsersForm(request.POST)
             if form.is_valid():
                 follow_users = form.save(commit=False)
                 follow_users.user = request.user
-                print(follow_users.user)
                 follow_users.save()
                 return redirect('home')
         except ValueError as e:
-                error = str(e)
-                return render(request, 'followUser.html', context={'error': error})
-    return render(request, 'followUser.html', context={'form': form, 'followed': followed})
+            error = str(e)
+        return render(request, 'followUser.html', context={'form': form, 'error': error})
+    if models.UserFollows.objects.filter(user=request.user):
+        followed = models.UserFollows.objects.filter(user=request.user)
+    if models.UserFollows.objects.filter(followed_user=request.user):
+        following = models.UserFollows.objects.filter(followed_user=request.user)
+    return render(request, 'followUser.html', context={'followed': followed, 'following': following})
 
 
 @login_required
