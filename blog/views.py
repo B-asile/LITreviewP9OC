@@ -70,7 +70,9 @@ def create_review(request):
 
 @login_required
 def follow_users(request):
-    global form, followed, error, following
+    form = forms.FollowUsersForm
+    followed = models.UserFollows.objects.filter(user=request.user)
+    following = models.UserFollows.objects.filter(followed_user=request.user)
     if request.method == 'POST':
         form = forms.FollowUsersForm(request.POST)
         try:
@@ -79,19 +81,15 @@ def follow_users(request):
                 follow_users.user = request.user
                 follow_users.save()
                 return redirect('home')
-        except (KeyError, models.UserFollows_check_unique_together()):
+        except :
             return render(request, 'followUser.html', context={'form': form, 'error_message': 'vous êtes déjà abonné à cet utilisateur'})
-    if models.UserFollows.objects.filter(user=request.user):
-        followed = models.UserFollows.objects.filter(user=request.user)
-    if models.UserFollows.objects.filter(followed_user=request.user):
-        following = models.UserFollows.objects.filter(followed_user=request.user)
-    return render(request, 'followUser.html', context={'followed': followed, 'following': following})
+    return render(request, 'followUser.html', context={'form': form, 'followed': followed, 'following': following})
 
 @login_required()
-def delete_followed(request, followed_user_id):
+def delete_followed(followed_user_id):
     followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
     followed_user.delete()
-    return render(request, 'delete_followed', context={'followed_user': followed_user})
+    return redirect('reviews-follow_user')
 
 @login_required
 def edit_ticket(request, ticket_id):
@@ -105,11 +103,11 @@ def edit_ticket(request, ticket_id):
                 ticket = edit_form.save(commit=False)
                 ticket.save()
                 return redirect('home')
-            if 'delete_post' in request.POST:
-                delete_form = forms.DeletePostForm(request.POST)
-                if delete_form.is_valid():
-                    ticket.delete()
-                    return redirect('home')
+        if 'delete_post' in request.POST:
+            delete_form = forms.DeletePostForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect('home')
     context = {'edit_form': edit_form,
                'delete_form': delete_form
                }

@@ -10,7 +10,7 @@
     {% if followed %}
     {% for follow_users in followed %}
     <div class="follow">
-        <p> {{ follow_users.followed_user }} - <a href=""><button>se désabonner</button></a></p>
+        <p> {{ follow_users.followed_user }} - <a href="{% url 'delete_followed' follow_users.id %}"><button>se désabonner</button></a></p>
     </div>
     {% endfor %}
     {% else %}
