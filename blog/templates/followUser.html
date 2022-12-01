@@ -6,11 +6,10 @@
         {% csrf_token %}
         <button type="submit" >Confirmer</button>
     </form>
-    <h2>Abonnement</h2>
+    <h2>Abonnement(s)</h2>
     {% if followed %}
     {% for follow_users in followed %}
     <div class="follow">
-        <p </p>
         <p> {{ follow_users.followed_user }} - <a href=""><button>se désabonner</button></a></p>
     </div>
     {% endfor %}
@@ -20,7 +19,7 @@
         </div>
     {% endif %}
 
-    <h2>Abonnés</h2>
+    <h2>Abonné(s)</h2>
     {% if following %}
     {% for follow_users in following %}
         <div class="follow">

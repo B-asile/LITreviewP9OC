@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from authentication.models import User
 from .models import Ticket, Review, UserFollows
 
 user = get_user_model()
@@ -18,6 +17,7 @@ class ReviewForm(forms.ModelForm):
     edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     #rating = forms.ChoiceField(choices=SELECT_RATING, widget=forms.CheckboxSelectMultiple())
     rating = forms.IntegerField(min_value=0, max_value=5)
+
     class Meta():
         model = Review
         fields = ['headline', 'rating', 'body']
@@ -31,6 +31,7 @@ class FollowUsersForm(forms.ModelForm):
     class Meta:
         model = UserFollows
         fields = ['followed_user']
+
 
 class DeletePostForm(forms.Form):
     delete_post = forms.BooleanField(widget=forms.HiddenInput, initial=True)

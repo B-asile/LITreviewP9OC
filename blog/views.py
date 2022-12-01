@@ -2,15 +2,16 @@ from itertools import chain
 from django.db.models import Q
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 
 from . import models, forms
 
 
 @login_required
 def home(request):
+    # recherche de ticket affilié au profil user & en fonction UserFollow
+    '''
     tickets = models.Ticket.objects.all()
-
     reviews = models.Review.objects.all()
     tickets_and_reviews = sorted(chain(tickets, reviews),
                                  key=lambda instance: instance.time_created,
@@ -19,9 +20,21 @@ def home(request):
                                                  'reviews': reviews,
                                                  'tickets_and_reviews': tickets_and_reviews
                                                  })
+    '''
+    profile_tickets = models.Ticket.objects.filter(user=request.user)
+    follow_tickets = models.Ticket.objects.filter(user__in=models.UserFollows.objects.filter(
+        user=request.user).values_list('followed_user'))
+    profile_reviews = models.Review.objects.filter(user=request.user)
+    follow_reviews = models.Review.objects.filter(user__in=models.UserFollows.objects.filter(
+        user=request.user).values_list('followed_user'))
+    tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets, profile_reviews, follow_reviews),
+                             key=lambda instance: instance.time_created,
+                             reverse=True)
+    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
+
+
 
 @login_required
-@permission_required('add_ticket', raise_exception=True)
 def create_ticket(request):
     ticket_form = forms.TicketForm()
     if request.method == "POST":
@@ -57,27 +70,30 @@ def create_review(request):
 
 @login_required
 def follow_users(request):
-    global form, followed
+    global form, followed, error, following
     if request.method == 'POST':
+        form = forms.FollowUsersForm(request.POST)
         try:
-            form = forms.FollowUsersForm(request.POST)
             if form.is_valid():
                 follow_users = form.save(commit=False)
                 follow_users.user = request.user
                 follow_users.save()
                 return redirect('home')
-        except ValueError as e:
-            error = str(e)
-        return render(request, 'followUser.html', context={'form': form, 'error': error})
+        except (KeyError, models.UserFollows_check_unique_together()):
+            return render(request, 'followUser.html', context={'form': form, 'error_message': 'vous êtes déjà abonné à cet utilisateur'})
     if models.UserFollows.objects.filter(user=request.user):
         followed = models.UserFollows.objects.filter(user=request.user)
     if models.UserFollows.objects.filter(followed_user=request.user):
         following = models.UserFollows.objects.filter(followed_user=request.user)
     return render(request, 'followUser.html', context={'followed': followed, 'following': following})
 
+@login_required()
+def delete_followed(request, followed_user_id):
+    followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
+    followed_user.delete()
+    return render(request, 'delete_followed', context={'followed_user': followed_user})
 
 @login_required
-@permission_required('change_ticket', raise_exception=True)
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)

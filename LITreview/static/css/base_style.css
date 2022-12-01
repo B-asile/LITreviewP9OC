@@ -90,10 +90,10 @@ nav {
     margin: 40px;
 }
 
-div .post{
+div {
     border: 2px solid lightslategrey;
-    margin-right: 15%;
-    margin-left: 15%;
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 hr {

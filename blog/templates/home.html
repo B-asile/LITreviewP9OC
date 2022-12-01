@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load blog_extras %}
 {% block content %}
     <section>
         {% if user.is_authenticated %}
@@ -12,27 +13,27 @@
         <a href="{% url 'reviews-follow_user' %}">Suivre des utilisateurs</a>
     </nav>
     <section>
-    <div class="post">
-        {% for ticket in tickets %}
-            <sub>{{ticket.user}} a demandé une critique - {{ticket.time_created}}</sub>
-            <h3>{{ticket.title}}</h3>
-            <p>{{ticket.description}}</p>
-            {% if ticket.image %}
-                <img src="{{ticket.image.url}}">
+        <div class="tickets_and_reviews">
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Ticket' %}
+                <sub>{{instance.user}} a demandé une critique - {{instance.time_created}}</sub>
+                <h3>{{instance.title}}</h3>
+                <p>{{instance.description}}</p>
+                {% if instance.image %}
+                    <img src="{{instance.image.url}}">
+                {% endif %}
+                {% if instance.user == user %}
+                    <p><a href="{% url 'reviews_edit' instance.id %}"><button type="submit"> Modifier</button></a></p>
+                {% else %}
+                    <p><a href="{% url 'reviews_reply_to_ticket' instance.id %}"><button type="submit"> répondre</button></a></p>
+                {% endif %}
             {% endif %}
-            {% if perms.change_ticket %}
-                <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a></p>
+            {% if instance|model_type == 'Review' %}
+                <sub>{{instance.user}} - {{instance.time_created}}</sub>
+                <h3>{{instance.headline}}</h3>
+                <p>{{instance.rating}}</p>
             {% endif %}
-                <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
-            {% for review in reviews %}
-                <sub>{{review.user}} - {{review.time_created}}</sub>
-                <h3>{{review.headline}}</h3>
-                <p>{{review.rating}}</p>
-            {% endfor %}
         {% endfor %}
-
-
-        <hr>
-    </div>
+        </div>
     </section>
 {% endblock content %}
