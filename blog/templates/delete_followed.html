@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h2>Suppréssion abonnement</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>êtes-vous sûr de vouloir supprimer votre abonnement à cet utilisateur?</p>
+        <p>{{followed_user.followed_user}}</p>
+
+        <input type="submit" value="oui, supprimer"> - <a href="{% url 'reviews-follow_user' %}"><button type="submit">annuler</button></a>
+    </form>
+{% endblock %}
