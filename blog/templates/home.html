@@ -16,22 +16,10 @@
         <div class="tickets_and_reviews">
         {% for instance in tickets_and_reviews %}
             {% if instance|model_type == 'Ticket' %}
-                <sub>{{instance.user}} a demandé une critique - {{instance.time_created}}</sub>
-                <h3>{{instance.title}}</h3>
-                <p>{{instance.description}}</p>
-                {% if instance.image %}
-                    <img src="{{instance.image.url}}">
-                {% endif %}
-                {% if instance.user == user %}
-                    <p><a href="{% url 'reviews_edit' instance.id %}"><button type="submit"> Modifier</button></a></p>
-                {% else %}
-                    <p><a href="{% url 'reviews_reply_to_ticket' instance.id %}"><button type="submit"> répondre</button></a></p>
-                {% endif %}
+                {% include 'partials/ticket_snippet.html' with ticket=instance %}
             {% endif %}
             {% if instance|model_type == 'Review' %}
-                <sub>{{instance.user}} - {{instance.time_created}}</sub>
-                <h3>{{instance.headline}}</h3>
-                <p>{{instance.rating}}</p>
+                {% include 'partials/review_snippet.html' with review=instance %}
             {% endif %}
         {% endfor %}
         </div>

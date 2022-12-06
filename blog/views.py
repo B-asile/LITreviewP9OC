@@ -80,16 +80,25 @@ def follow_users(request):
                 follow_users = form.save(commit=False)
                 follow_users.user = request.user
                 follow_users.save()
-                return redirect('home')
+                return redirect('reviews-follow_user')
         except :
             return render(request, 'followUser.html', context={'form': form, 'error_message': 'vous êtes déjà abonné à cet utilisateur'})
     return render(request, 'followUser.html', context={'form': form, 'followed': followed, 'following': following})
-
+'''
 @login_required()
 def delete_followed(followed_user_id):
     followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
     followed_user.delete()
     return redirect('reviews-follow_user')
+'''
+@login_required()
+def delete_followed(request, followed_user_id):
+    followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
+    if request.method == 'POST':
+        #if 'delete_followed' in request.POST:
+        followed_user.delete()
+        return redirect('reviews-follow_user')
+    return render(request, "delete_followed.html", context={'followed_user': followed_user})
 
 @login_required
 def edit_ticket(request, ticket_id):
