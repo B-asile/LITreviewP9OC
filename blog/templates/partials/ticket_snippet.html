@@ -1,0 +1,12 @@
+{% load blog_extras %}
+<sub>Demande de critique par : {% get_poster_display ticket.user %} - {{instance.time_created}}</sub>
+<h3>{{ticket.title}}</h3>
+<p>{{ticket.description}}</p>
+{% if ticket.image %}
+    <img src="{{ticket.image.url}}">
+{% endif %}
+{% if ticket.user == user %}
+    <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a></p>
+{% else %}
+    <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
+{% endif %}
