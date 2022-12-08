@@ -7,7 +7,19 @@
         <title>LIT Review</title>
     </head>
     <body>
-        <h1>LIT Review</h1>
+    <h1>LITreview</h1>
+        <img src="{% static 'website_image/logo_litReview.png' %}" alt="logo image">
+        <section class="heading">
+        {% if user.is_authenticated %}
+                <em>Hello {{request.user}}!</em>
+            <ul class="nav_list">
+                <li><a href="{% url 'home' %}">Flux</a></li>
+                <li><a href="">Posts</a></li>
+                <li><a href="{% url 'reviews-follow_user' %}">Abonnements</a></li>
+                <li><a href="{% url 'logout_user' %}">Se déconnecter</a></li>
+            </ul>
+        {% endif %}
+        </section>
         {% block content %}
         {% endblock content %}
     </body>

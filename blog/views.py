@@ -126,6 +126,7 @@ def edit_ticket(request, ticket_id):
 @login_required
 def reply_to_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    #display_ticket = models.Ticket.objects.filter(user=request.user)
     review_form = forms.ReviewForm()
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST)
@@ -135,4 +136,4 @@ def reply_to_ticket(request, ticket_id):
             review.ticket = ticket
             review.save()
             return redirect('home')
-    return render(request, 'reply_ticket.html', context={'review_form': review_form})
+    return render(request, 'reply_ticket.html', context={'ticket': ticket, 'review_form': review_form})

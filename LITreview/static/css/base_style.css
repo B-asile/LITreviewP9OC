@@ -22,6 +22,12 @@ section {
     justify-items: center;
 }
 
+.nav_list li {
+    display: inline-block;
+    margin: 0 10px;
+    color: black;
+}
+
 em {
     font-size: 2rem;
     color: lightslategrey;
@@ -48,6 +54,7 @@ div {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    max-width: 75%;
 }
 
 sub {
@@ -106,7 +113,7 @@ input, textarea {
     line-height: 1.5;
     font-size: 1rem;
     border-radius: .25rem;
-    mon-width: 600px;
+    max-width: 600px;
 }
 
 label {

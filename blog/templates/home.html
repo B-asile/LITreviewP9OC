@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% load blog_extras %}
 {% block content %}
-    <section>
-        {% if user.is_authenticated %}
-                <em>Hello {{request.user}}!</em>
-                <a href="{% url 'logout_user' %}">Se déconnecter</a>
-        {% endif %}
-    </section>
     <nav>
         <a href="{% url 'reviews-create_ticket' %}">Demander une critique</a>
         <a href="{% url 'reviews-create_review' %}">Créer une critique</a>
-        <a href="{% url 'reviews-follow_user' %}">Suivre des utilisateurs</a>
     </nav>
     <section>
         <div class="tickets_and_reviews">
         {% for instance in tickets_and_reviews %}
             {% if instance|model_type == 'Ticket' %}
+                {% include 'partials/heading_ticket_snippet.html' with ticket=instance %}
                 {% include 'partials/ticket_snippet.html' with ticket=instance %}
+                {% include 'partials/option_ticket_snippet.html' with ticket=instance %}
             {% endif %}
             {% if instance|model_type == 'Review' %}
                 {% include 'partials/review_snippet.html' with review=instance %}
