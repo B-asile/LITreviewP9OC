@@ -14,7 +14,7 @@
                 <em>Hello {{request.user}}!</em>
             <ul class="nav_list">
                 <li><a href="{% url 'home' %}">Flux</a></li>
-                <li><a href="">Posts</a></li>
+                <li><a href="{% url 'posts' %}">Posts</a></li>
                 <li><a href="{% url 'reviews-follow_user' %}">Abonnements</a></li>
                 <li><a href="{% url 'logout_user' %}">Se déconnecter</a></li>
             </ul>

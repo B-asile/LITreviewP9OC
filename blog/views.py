@@ -33,6 +33,14 @@ def home(request):
     return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
 
 
+@login_required
+def posts(request):
+    tickets = models.Ticket.objects.filter(user=request.user)
+    reviews = models.Review.objects.filter(user=request.user)
+    tickets_and_reviews = sorted(chain(tickets, reviews),
+                                 key=lambda element: element.time_created,
+                                 reverse=True)
+    return render(request, 'posts.html', context={'tickets_and_reviews': tickets_and_reviews})
 
 @login_required
 def create_ticket(request):
@@ -68,6 +76,21 @@ def create_review(request):
                'review_form': review_form}
     return render(request, 'create_review.html', context=context)
 
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    edit_form = forms.ReviewForm(instance=review)
+    if request.method == 'POST':
+        if 'edit_review' in request.POST:
+            edit_form = forms.ReviewForm(request.POST, request.FILES, instance=review)
+            if edit_form.is_valid():
+                review = edit_form.save(commit=False)
+                review.save()
+                return redirect('home')
+    return render(request, "edit.html", context={'edit_form': edit_form})
+
+
 @login_required
 def follow_users(request):
     form = forms.FollowUsersForm
@@ -84,6 +107,8 @@ def follow_users(request):
         except :
             return render(request, 'followUser.html', context={'form': form, 'error_message': 'vous êtes déjà abonné à cet utilisateur'})
     return render(request, 'followUser.html', context={'form': form, 'followed': followed, 'following': following})
+
+
 '''
 @login_required()
 def delete_followed(followed_user_id):
@@ -100,11 +125,11 @@ def delete_followed(request, followed_user_id):
         return redirect('reviews-follow_user')
     return render(request, "delete_followed.html", context={'followed_user': followed_user})
 
+
 @login_required
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
-    delete_form = forms.DeletePostForm()
     if request.method == 'POST':
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
@@ -112,15 +137,19 @@ def edit_ticket(request, ticket_id):
                 ticket = edit_form.save(commit=False)
                 ticket.save()
                 return redirect('home')
+    return render(request, "edit.html", context={'edit_form': edit_form})
+
+
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    delete_form = forms.DeletePostForm()
+    if request.method == 'POST':
         if 'delete_post' in request.POST:
             delete_form = forms.DeletePostForm(request.POST)
             if delete_form.is_valid():
                 ticket.delete()
                 return redirect('home')
-    context = {'edit_form': edit_form,
-               'delete_form': delete_form
-               }
-    return render(request, 'edit.html', context=context)
+    return render(request, 'delete_ticket.html', context={'delete_form': delete_form})
 
 
 @login_required
@@ -135,5 +164,7 @@ def reply_to_ticket(request, ticket_id):
             review.user = request.user
             review.ticket = ticket
             review.save()
+            ticket.reviewed = True
+            ticket.save()
             return redirect('home')
-    return render(request, 'reply_ticket.html', context={'ticket': ticket, 'review_form': review_form})
+    return render(request, 'reply_ticket.html', context={'ticket': ticket, 'review_form': review_form, 'response': True})

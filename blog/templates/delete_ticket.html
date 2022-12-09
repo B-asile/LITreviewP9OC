@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h2>Suppression d'une demande de critique</h2>
+    <form method="POST">
+        {% delete_form %}
+        {% csrf_token %}
+        <p>êtes-vous sûr de vouloir supprimer votre demande de critique ?</p>
+        {% include 'partials/heading_ticket_snippet.html' with ticket=instance %}
+        {% include 'partials/ticket_snippet.html' with ticket=instance %}
+        <input type="submit" value="oui, supprimer"> - <a href="{% url 'home' %}"><button type="submit">annuler</button></a>
+    </form>
+{% endblock %}
