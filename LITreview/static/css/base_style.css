@@ -12,20 +12,26 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin-left: 20%;
-    margin-right: 20%;
-}
-
-section {
-    display: flex;
-    justify-content: space-between;
-    justify-items: center;
 }
 
 .nav_list li {
     display: inline-block;
     margin: 0 10px;
     color: black;
+}
+
+.content {
+    height: 90%;
+    overflow: scroll;
+    text-align: center;
+}
+
+.boutons_critiques button {
+    display: inline-block;
+    justify-items: center;
+    background-color: lightsteelblue;
+    font-size: 1rem;
+    border-radius: .25rem;
 }
 
 em {
@@ -120,10 +126,6 @@ label {
     display: inline-block;
     box-sizing: border-box;
     margin: 1rem 0;
-}
-
-.btn {
- background-color: royalblue;
 }
 
 btn-submit {
