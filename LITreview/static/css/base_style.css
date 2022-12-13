@@ -12,26 +12,15 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
-.nav_list li {
-    display: inline-block;
-    margin: 0 10px;
-    color: black;
-}
-
-.content {
-    height: 90%;
-    overflow: scroll;
-    text-align: center;
-}
-
-.boutons_critiques button {
-    display: inline-block;
+/*
+section {
+    display: flex;
+    justify-content: space-between;
     justify-items: center;
-    background-color: lightsteelblue;
-    font-size: 1rem;
-    border-radius: .25rem;
 }
 
 em {
@@ -60,11 +49,10 @@ div {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    max-width: 75%;
 }
 
 sub {
-    color: lightslategrey;
+    color: black;
     margin: 5%;
 }
 
@@ -105,8 +93,8 @@ nav {
 
 div {
     border: 2px solid lightslategrey;
-    margin-right: 10%;
-    margin-left: 10%;
+    margin-right: 15%;
+    margin-left: 15%;
 }
 
 hr {
@@ -119,7 +107,7 @@ input, textarea {
     line-height: 1.5;
     font-size: 1rem;
     border-radius: .25rem;
-    max-width: 600px;
+    mon-width: 600px;
 }
 
 label {
@@ -128,10 +116,14 @@ label {
     margin: 1rem 0;
 }
 
+.btn {
+ background-color: royalblue;
+}
+
 btn-submit {
     background-color: cornflowerblue;
 }
 
 btn-delete {
     background-color: red;
-}
+}*/
