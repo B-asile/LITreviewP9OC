@@ -4,36 +4,50 @@ html {
     height: 100%;
     margin: 0;
     border: 0;
-    font-family: "Myanmar Sangam MN", sans-serif;
+    font-family: "Helvetica", sans-serif;
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin-left: 20%;
-    margin-right: 20%;
+    /*margin-left: 20%;*/
+    /*margin-right: 20%;*/
+    height: 90%;
+    /*border: solid 2px;*/
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
 }
 
-/*
+
 section {
     display: flex;
     justify-content: space-between;
     justify-items: center;
 }
 
+.heading em ul {
+    display: flex;
+    justify-content: space-between;
+}
+
 em {
-    font-size: 2rem;
-    color: lightslategrey;
+    font-size: 1.5rem;
 
 }
 
 h1 {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     color: lightslategrey;
 
+}
+
+.logo img {
+    font-size: 2rem;
+    margin: 10% 40%;
 }
 
 h2 {
@@ -45,10 +59,19 @@ h3 {
     color: black;
 }
 
+.content {
+    background-color: midnightblue;
+    margin: 5px 0px;
+    text-align: center;
+}
+
 div {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    border: 1px solid lightslategrey;
+    background-color: whitesmoke;
+    margin: 10px 10px;
 }
 
 sub {
@@ -84,21 +107,42 @@ form {
     background-color: rgba(0, 0, 0, .30);
 }
 
-nav {
+.nav_list {
     display: flex;
     justify-content: space-between;
-    color: cornflowerblue;
-    margin: 40px;
+    margin: 10px;
 }
 
-div {
-    border: 2px solid lightslategrey;
-    margin-right: 15%;
-    margin-left: 15%;
+.nav_list li {
+    display: inline-block;
+    margin: 10px 10px;
+    color: cornflowerblue;
 }
 
-hr {
-    color: cornflowerblue;
+.ticket_inside {
+    display: flex;
+    margin: 30px 10px;
+    border-color: midnightblue;
+}
+
+.reviewers_buttons a {
+    display: inline-block;
+    justify-content: center;
+    margin: 2rem 5rem;
+}
+
+.reviewers_buttons button{
+    background-color: midnightblue;
+    color: white;
+    font-size: 1rem;
+    font-family: "Comic Sans MS", sans-serif;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin: 5px 5px;
+    border-color: whitesmoke;
 }
 
 input, textarea {
@@ -115,15 +159,3 @@ label {
     box-sizing: border-box;
     margin: 1rem 0;
 }
-
-.btn {
- background-color: royalblue;
-}
-
-btn-submit {
-    background-color: cornflowerblue;
-}
-
-btn-delete {
-    background-color: red;
-}*/

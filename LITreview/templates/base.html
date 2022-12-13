@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -7,8 +6,7 @@
         <title>LIT Review</title>
     </head>
     <body>
-    <h1>LITreview</h1>
-        <img src="{% static 'website_image/logo_litReview.png' %}" alt="logo image">
+    <h1 class="logo"><img src="{% static 'website_images/logo_litRrview.png' %}" alt="logo image"></h1>
         <section class="heading">
         {% if user.is_authenticated %}
                 <em>Hello {{request.user}}!</em>
