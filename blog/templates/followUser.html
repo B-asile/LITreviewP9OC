@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Suivre des utilisateurs</h2>
+    <h1>Suivre des utilisateurs</h1>
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
@@ -24,7 +24,7 @@
         </div>
     {% empty %}
         <div class="no_follow">
-            <p>Personne de vous suit pour l'instant !</p>
+            <p>Personne ne vous suit pour l'instant !</p>
         </div>
     {% endfor %}
 {% endblock content %}

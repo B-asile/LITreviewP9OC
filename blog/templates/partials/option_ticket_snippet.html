@@ -1,7 +1,9 @@
 {% load blog_extras %}
+<div class="buttons">
 {% if ticket.user == user %}
     <p><a href="{% url 'reviews_edit' ticket.id %}"><button type="submit"> Modifier</button></a>
     <a href="{% url 'delete_ticket' ticket.id %}"><button type="submit"> Supprimer</button></a></p>
 {% else %}
     <p><a href="{% url 'reviews_reply_to_ticket' ticket.id %}"><button type="submit"> répondre</button></a></p>
 {% endif %}
+</div>

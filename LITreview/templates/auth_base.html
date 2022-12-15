@@ -1,0 +1,20 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'css/base_style.css' %}">
+        <title>LIT Review</title>
+    </head>
+    <body>
+<h1 class="logo"><img src="{% static 'website_images/logo_litRrview.png' %}" alt="logo image"></h1>
+        {% block content %}
+        {% endblock content %}
+    </body>
+    <footer>
+        <ul class="foot_list">
+                <li>LITreview</li>
+                <li>FAQ</li>
+                <li><a href="{% url 'logout_user' %}">Se déconnecter</a></li>
+        </ul>
+    </footer>
+</html>

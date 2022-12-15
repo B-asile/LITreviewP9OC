@@ -87,8 +87,21 @@ def edit_review(request, review_id):
             if edit_form.is_valid():
                 review = edit_form.save(commit=False)
                 review.save()
-                return redirect('home')
+            return redirect('home')
     return render(request, "edit.html", context={'edit_form': edit_form})
+
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(models.Ticket, id=review_id)
+    delete_form = forms.DeletePostForm()
+    if request.method == 'POST':
+        if 'delete_post' in request.POST:
+            delete_form = forms.DeletePostForm(request.POST)
+            if delete_form.is_valid():
+                review.delete()
+                return redirect('home')
+    return render(request, 'delete_ticket.html', context={'delete_form': delete_form})
 
 
 @login_required

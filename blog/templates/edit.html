@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <form method="post">
-        <h2>Modifier</h2>
+        <h1>Modifier</h1>
         {{ edit_form.as_p }}
         {% csrf_token %}
         <button type="submit" >Sauvegarder</button>
