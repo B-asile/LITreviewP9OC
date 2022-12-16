@@ -12,3 +12,7 @@ def get_poster_display(context, user):
     if context['user'] == user:
         return 'vous'
     return user.username
+
+@register.filter
+def star_range(value):
+    return range(value)

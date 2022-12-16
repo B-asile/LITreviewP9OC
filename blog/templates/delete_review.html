@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_extras %}
+{% block content %}
+    <h1>Suppression d'une critique</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>êtes-vous sûr de vouloir supprimer votre critique ?</p>
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Review' %}
+                {% include 'partials/review_snippet.html' with review=review %}
+            {% endif %}
+        {% endfor %}
+        <input type="submit" value="oui, supprimer"> - <a href="{% url 'home' %}"><button type="submit">annuler</button></a>
+    </form>
+{% endblock %}

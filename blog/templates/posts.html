@@ -3,16 +3,19 @@
 {% block content %}
 <h1>Vos posts :</h1>
     <div class="content">
-        {% for instance in tickets_and_reviews %}
-            <div>{% if instance|model_type == 'Ticket' %}
-                {% include 'partials/heading_ticket_snippet.html' with ticket=instance %}
-                {% include 'partials/ticket_snippet.html' with ticket=instance %}
-                {% include 'partials/option_ticket_snippet.html' with ticket=instance %}
-            {% endif %}
-            </div>
-            {% if instance|model_type == 'Review' %}
-                {% include 'partials/review_snippet.html' with review=instance %}
-            {% endif %}
-        {% endfor %}
+            {% for instance in tickets_and_reviews %}
+                <div class="ticket">{% if instance|model_type == 'Ticket' %}
+                    {% include 'partials/heading_ticket_snippet.html' with ticket=instance %}
+                    {% include 'partials/ticket_snippet.html' with ticket=instance %}
+                    {% include 'partials/option_ticket_snippet.html' with ticket=instance %}
+                {% endif %}
+                </div>
+                {% if instance|model_type == 'Review' %}
+                <div class="response_review">
+                    {% include 'partials/heading_review_snippet.html' with review=instance %}
+                    {% include 'partials/review_snippet.html' with review=instance %}
+                </div>
+                {% endif %}
+            {% endfor %}
     </div>
 {% endblock content %}

@@ -4,7 +4,7 @@ html {
     height: 100%;
     margin: 0;
     border: 0;
-    font-family: "Helvetica", sans-serif;
+    font-family: "DIN Condensed", sans-serif;
 }
 
 body {
@@ -31,7 +31,8 @@ section {
 }
 
 .heading {
-    margin: 3% 0%
+    margin: 3% 0%;
+    padding: 3%;
 }
 
 em {
@@ -61,22 +62,23 @@ h2 {
 h3 {
     text-align: center;
     color: black;
+    margin: 1% 0%;
 }
 
 .content {
     background-color: rgba(54, 114, 174);
-    margin: 2% 2%;
+    margin: 3% 2%;
     text-align: center;
 }
 
-div {
+/*div {
     display: flex;
     justify-content: center;
     flex-direction: column;
     border: 1px solid rgba(54, 114, 174);
     background-color: whitesmoke;
     margin: 1% 15%;
-}
+}*/
 
 sub {
     color: rgba(54, 114, 174);
@@ -90,16 +92,14 @@ p {
 }
 
 img {
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    max-width: 15%;
+    max-width: 35%;
     height: auto;
-    margin: 5% 5%;
+    margin: 2% 35%;
 }
 
 form {
-    height: 100%;
+    /*height: 100%;*/
+    margin: 0% 2%;
     padding: 6%;
     display: flex;
     flex-direction: column;
@@ -109,10 +109,22 @@ form {
     background-color: rgba(54, 114, 174, .30);
 }
 
+.star {
+    display: flex;
+    align-items: center;
+    flex-direction : row;
+    color: yellow;
+    margin: 2% 35%;
+}
+
+.star img {
+    max-width: 20%;
+    height: auto;
+    margin: 2% 1%;
+}
+
 hr {
     color: rgba(54, 114, 174);
-
-
 }
 
 .nav_list {
@@ -126,10 +138,42 @@ hr {
     margin: 10px 10px;
 }
 
+.ticket {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid rgba(54, 114, 174);
+    background-color: whitesmoke;
+    margin: 1% 15%;
+}
+
+.response_review {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid rgba(54, 114, 174);
+    background-color: whitesmoke;
+    margin: 1% 15%;
+}
+
 .ticket_inside {
     display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid rgba(54, 114, 174);
+    background-color: whitesmoke;
+    margin: 1% 15%;
+    /*display: flex;*/
     margin: 30px 90px;
-    border: 4px solid rgba(54, 114, 174, .50);
+    /*border: 4px solid rgba(54, 114, 174, .50);*/
+}
+
+.reply_ticket {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid rgba(54, 114, 174);
+    background-color: whitesmoke;
 }
 
 .follow {
@@ -165,7 +209,7 @@ hr {
 
 .reviewers_buttons button{
     font-size: 1.2rem;
-    font-family: "Helvetica", sans-serif;
+    font-family: "DIN Condensed", sans-serif;
     background-color: rgba(54, 114, 174, .30);
     border-color: rgba(54, 114, 174);
     border-radius: .25rem;
@@ -180,7 +224,7 @@ hr {
 
 .buttons button {
     font-size: 1rem;
-    font-family: "Helvetica", sans-serif;
+    font-family: "DIN Condensed", sans-serif;
 }
 
 input, textarea {
@@ -196,4 +240,9 @@ label {
     display: inline-block;
     box-sizing: border-box;
     margin: 1rem 0;
+}
+
+#id_rating div {
+    display: flex;
+    flex-direction : row;
 }

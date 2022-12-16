@@ -27,7 +27,8 @@ def home(request):
     profile_reviews = models.Review.objects.filter(user=request.user)
     follow_reviews = models.Review.objects.filter(user__in=models.UserFollows.objects.filter(
         user=request.user).values_list('followed_user'))
-    tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets, profile_reviews, follow_reviews),
+    other_reviews = models.Review.objects.filter(ticket__user=request.user).difference(profile_reviews, follow_reviews)
+    tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets, profile_reviews, follow_reviews, other_reviews),
                              key=lambda instance: instance.time_created,
                              reverse=True)
     return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
@@ -93,15 +94,11 @@ def edit_review(request, review_id):
 
 @login_required
 def delete_review(request, review_id):
-    review = get_object_or_404(models.Ticket, id=review_id)
-    delete_form = forms.DeletePostForm()
+    review = get_object_or_404(models.Review, id=review_id)
     if request.method == 'POST':
-        if 'delete_post' in request.POST:
-            delete_form = forms.DeletePostForm(request.POST)
-            if delete_form.is_valid():
-                review.delete()
-                return redirect('home')
-    return render(request, 'delete_ticket.html', context={'delete_form': delete_form})
+        review.delete()
+        return redirect('home')
+    return render(request, 'delete_review.html', context={'review': review})
 
 
 @login_required
@@ -122,18 +119,10 @@ def follow_users(request):
     return render(request, 'followUser.html', context={'form': form, 'followed': followed, 'following': following})
 
 
-'''
-@login_required()
-def delete_followed(followed_user_id):
-    followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
-    followed_user.delete()
-    return redirect('reviews-follow_user')
-'''
 @login_required()
 def delete_followed(request, followed_user_id):
     followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
     if request.method == 'POST':
-        #if 'delete_followed' in request.POST:
         followed_user.delete()
         return redirect('reviews-follow_user')
     return render(request, "delete_followed.html", context={'followed_user': followed_user})
@@ -155,14 +144,11 @@ def edit_ticket(request, ticket_id):
 
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    delete_form = forms.DeletePostForm()
     if request.method == 'POST':
-        if 'delete_post' in request.POST:
-            delete_form = forms.DeletePostForm(request.POST)
-            if delete_form.is_valid():
-                ticket.delete()
-                return redirect('home')
-    return render(request, 'delete_ticket.html', context={'delete_form': delete_form})
+        print('coucou')
+        ticket.delete()
+        return redirect('home')
+    return render(request, 'delete_ticket.html', context={'ticket': ticket})
 
 
 @login_required

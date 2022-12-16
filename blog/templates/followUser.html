@@ -12,7 +12,7 @@
         <p> {{ follow_users.followed_user }} - <a href="{% url 'delete_followed' follow_users.id %}"><button>se désabonner</button></a></p>
     </div>
     {% empty %}
-    <div>
+    <div class="no_follow">
         <p>Vous ne suivez personne pour l'instant !</p>
     </div>
     {% endfor %}

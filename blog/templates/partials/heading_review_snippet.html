@@ -1,0 +1,10 @@
+{% load blog_extras %}
+{% load static %}
+<sub>En réponse à une demande de critique : {% get_poster_display review.user %} - {{review.time_created}}</sub>
+<h3>{{review.headline}}</h3>
+<p class="star">
+        {% for i in review.range_rating %}
+            <img alt="star" src="{% static 'website_images/star.png' %}">
+        {% endfor %}
+    </p>
+<p>{{review.body}}</p>

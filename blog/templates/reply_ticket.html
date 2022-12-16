@@ -2,11 +2,12 @@
 {% load blog_extras %}
 {% block content %}
     <h1>Répondre à une critique</h1>
-    <sub> vous êtes en train de poster en réponse à:</sub>
-    <div>
-        {% include 'partials/ticket_snippet.html' with ticket=ticket %}
-    </div>
+
         <form method="POST" enctype="multipart/form-data">
+            <sub> vous êtes en train de poster en réponse à:</sub>
+            <div class="reply_ticket">
+                {% include 'partials/ticket_snippet.html' with ticket=ticket %}
+            </div>
             {{ review_form.as_p }}
             {% csrf_token %}
             <button type="submit">Publier</button>

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import home, create_ticket, create_review, follow_users, edit_ticket, reply_to_ticket, delete_followed, \
-    delete_ticket, posts, edit_review
+    delete_ticket, posts, edit_review, delete_review
 
 urlpatterns = [
     path("home", home, name="home"),
@@ -16,4 +16,5 @@ urlpatterns = [
     path("ticket/<int:ticket_id>/replyToTicket", reply_to_ticket, name="reviews_reply_to_ticket"),
 
     path("review/<int:review_id>/edit", edit_review, name="edit_review"),
+    path("review/<int:review_id>/delete", delete_review, name="delete_review"),
 ]

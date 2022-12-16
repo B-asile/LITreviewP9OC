@@ -1,9 +1,5 @@
 {% load blog_extras %}
-<div class="response_review">
-    <sub>En réponse à une demande de critique : {% get_poster_display review.user %} - {{review.time_created}}</sub>
-    <h3>{{review.headline}}</h3>
-    <p>{{review.rating}}</p>
-    <p>{{review.body}}</p>
+{% load static %}
     <div class="ticket_inside">
         {% include 'partials/heading_ticket_snippet.html' with ticket=review.ticket %}
         {% include 'partials/ticket_snippet.html' with ticket=review.ticket %}
@@ -11,7 +7,6 @@
     <div class="buttons">
         {% if review.user == user %}
         <p><a href="{% url 'edit_review' review.id %}"><button type="submit"> Modifier</button></a>
-        <a href="{% url 'edit_review' review.id %}"><button type="submit"> Supprimer</button></a></p>
+        <a href="{% url 'delete_review' review.id %}"><button type="submit"> Supprimer</button></a></p>
         {% endif %}
     </div>
-</div>

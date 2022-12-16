@@ -41,4 +41,5 @@ class Review(models.Model):
     user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
-
+    def range_rating(self):
+        return range(self.rating)

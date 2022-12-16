@@ -7,6 +7,7 @@
         {% csrf_token %}
         <p>êtes-vous sûr de vouloir supprimer votre demande de critique ?</p>
         {% include 'partials/ticket_snippet.html' with ticket=ticket %}
-        <input type="submit" value="oui, supprimer"> - <a href="{% url 'home' %}"><button type="submit">annuler</button></a>
+        <input type="submit" value="oui, supprimer"> - <a href="{% url 'home' %}"><button type="button">annuler</button></a>
     </form>
+
 {% endblock %}
