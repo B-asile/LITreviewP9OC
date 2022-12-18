@@ -10,17 +10,6 @@ from . import models, forms
 @login_required
 def home(request):
     # recherche de ticket affilié au profil user & en fonction UserFollow
-    '''
-    tickets = models.Ticket.objects.all()
-    reviews = models.Review.objects.all()
-    tickets_and_reviews = sorted(chain(tickets, reviews),
-                                 key=lambda instance: instance.time_created,
-                                 reverse=True)
-    return render(request, 'home.html', context={'tickets': tickets,
-                                                 'reviews': reviews,
-                                                 'tickets_and_reviews': tickets_and_reviews
-                                                 })
-    '''
     profile_tickets = models.Ticket.objects.filter(user=request.user)
     follow_tickets = models.Ticket.objects.filter(user__in=models.UserFollows.objects.filter(
         user=request.user).values_list('followed_user'))

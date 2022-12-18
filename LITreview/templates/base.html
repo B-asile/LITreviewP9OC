@@ -9,6 +9,7 @@
     </head>
     <body>
     <h1 class="logo"><img src="{% static 'website_images/logo_litRrview.png' %}" alt="logo image"></h1>
+    <hr>
         <section class="heading">
         {% if user.is_authenticated %}
                 <em>Hello {{request.user}}!</em>
