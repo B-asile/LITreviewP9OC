@@ -3,13 +3,16 @@ from django.shortcuts import render, redirect
 
 from . import forms
 
+
 def login_page(request):
+    '''user identification'''
     form = forms.LoginForm()
     message = ""
     if request.method == "POST":
         form = forms.LoginForm(request.POST)
         if form.is_valid():
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
                 return redirect('home')
@@ -19,18 +22,23 @@ def login_page(request):
         request, "login.html", context={"form": form, "message": message}
     )
 
+
 User = get_user_model()
 
+
 def signup(request):
+    ''' user registration '''
     form = forms.SignupForm()
     if request.method == "POST":
         form = forms.SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request,user)
+            login(request, user)
             return redirect('home')
     return render(request, "signup.html", context={'form': form})
 
+
 def logout_user(request):
+    '''disconnection'''
     logout(request)
     return redirect('authentication_login_page')

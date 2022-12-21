@@ -1,5 +1,4 @@
 from itertools import chain
-from django.db.models import Q
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -9,18 +8,24 @@ from . import models, forms
 
 @login_required
 def home(request):
-    # recherche de ticket affilié au profil user & en fonction UserFollow
+    ''' recherche de ticket affilié au profil user & en fonction UserFollow '''
     profile_tickets = models.Ticket.objects.filter(user=request.user)
-    follow_tickets = models.Ticket.objects.filter(user__in=models.UserFollows.objects.filter(
-        user=request.user).values_list('followed_user'))
+    follow_tickets = models.Ticket.objects.filter(
+        user__in=models.UserFollows.objects.filter(
+            user=request.user).values_list('followed_user'))
     profile_reviews = models.Review.objects.filter(user=request.user)
-    follow_reviews = models.Review.objects.filter(user__in=models.UserFollows.objects.filter(
-        user=request.user).values_list('followed_user'))
-    other_reviews = models.Review.objects.filter(ticket__user=request.user).difference(profile_reviews, follow_reviews)
-    tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets, profile_reviews, follow_reviews, other_reviews),
-                             key=lambda instance: instance.time_created,
-                             reverse=True)
-    return render(request, 'home.html', context={'tickets_and_reviews': tickets_and_reviews})
+    follow_reviews = models.Review.objects.filter(
+        user__in=models.UserFollows.objects.filter(
+            user=request.user).values_list('followed_user'))
+    other_reviews = models.Review.objects.filter(
+        ticket__user=request.user).difference(profile_reviews, follow_reviews)
+    tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets,
+                                       profile_reviews, follow_reviews,
+                                       other_reviews),
+                                 key=lambda instance: instance.time_created, reverse=True)
+    return render(request, 'home.html', context={
+        'tickets_and_reviews': tickets_and_reviews
+    })
 
 
 @login_required
@@ -30,7 +35,10 @@ def posts(request):
     tickets_and_reviews = sorted(chain(tickets, reviews),
                                  key=lambda element: element.time_created,
                                  reverse=True)
-    return render(request, 'posts.html', context={'tickets_and_reviews': tickets_and_reviews})
+    return render(request, 'posts.html', context={
+        'tickets_and_reviews': tickets_and_reviews
+    })
+
 
 @login_required
 def create_ticket(request):
@@ -93,8 +101,10 @@ def delete_review(request, review_id):
 @login_required
 def follow_users(request):
     form = forms.FollowUsersForm
-    followed = models.UserFollows.objects.filter(user=request.user)
-    following = models.UserFollows.objects.filter(followed_user=request.user)
+    followed = models.UserFollows.objects.filter(
+        user=request.user)
+    following = models.UserFollows.objects.filter(
+        followed_user=request.user)
     if request.method == 'POST':
         form = forms.FollowUsersForm(request.POST)
         try:
@@ -103,9 +113,16 @@ def follow_users(request):
                 follow_users.user = request.user
                 follow_users.save()
                 return redirect('reviews-follow_user')
-        except :
-            return render(request, 'followUser.html', context={'form': form, 'error_message': 'vous êtes déjà abonné à cet utilisateur'})
-    return render(request, 'followUser.html', context={'form': form, 'followed': followed, 'following': following})
+        except:
+            return render(request, 'followUser.html',
+                          context={
+                              'form': form, 'error_message':
+                                  'vous êtes déjà abonné à cet utilisateur'
+                          })
+    return render(request, 'followUser.html',
+                  context={
+                      'form': form, 'followed': followed, 'following': following
+                  })
 
 
 @login_required()
@@ -114,7 +131,9 @@ def delete_followed(request, followed_user_id):
     if request.method == 'POST':
         followed_user.delete()
         return redirect('reviews-follow_user')
-    return render(request, "delete_followed.html", context={'followed_user': followed_user})
+    return render(request, "delete_followed.html", context={
+        'followed_user': followed_user
+    })
 
 
 @login_required
@@ -131,6 +150,7 @@ def edit_ticket(request, ticket_id):
     return render(request, "edit.html", context={'edit_form': edit_form})
 
 
+@login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.method == 'POST':
@@ -143,7 +163,6 @@ def delete_ticket(request, ticket_id):
 @login_required
 def reply_to_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    #display_ticket = models.Ticket.objects.filter(user=request.user)
     review_form = forms.ReviewForm()
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST)
@@ -155,4 +174,6 @@ def reply_to_ticket(request, ticket_id):
             ticket.reviewed = True
             ticket.save()
             return redirect('home')
-    return render(request, 'reply_ticket.html', context={'ticket': ticket, 'review_form': review_form, 'response': True})
+    return render(request, 'reply_ticket.html', context={
+        'ticket': ticket, 'review_form': review_form, 'response': True
+    })
