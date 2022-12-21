@@ -51,11 +51,8 @@ h1 {
 }
 
 .logo img {
-    font-size: 2%;
-    margin: 10% 40%;
-}
-
-hr {
+    max-width: 30%;
+    margin: 10% 35%;
 }
 
 h2 {
@@ -69,7 +66,7 @@ h3 {
 }
 
 .content {
-    background-color: rgba(54, 114, 174);
+    background-color: rgba(54, 114, 174, .20);
     margin: 3% 2%;
     text-align: center;
 }
@@ -94,8 +91,8 @@ p {
 
 }
 
-.ticket_img img {
-    max-width: 35%;
+.ticket_img img{
+    max-width: 30%;
     height: auto;
     margin: 2% 35%;
 }
@@ -141,7 +138,7 @@ form {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    border: 2px solid rgba(54, 114, 174);
+    border: 1px solid rgba(54, 114, 174, .20);
     background-color: whitesmoke;
     margin: 1% 15%;
 }
@@ -150,7 +147,7 @@ form {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    border: 1px solid rgba(54, 114, 174);
+    border: 1px solid rgba(54, 114, 174, .20);
     background-color: whitesmoke;
     margin: 1% 15%;
 }
