@@ -2,5 +2,5 @@
 <h3>{{ticket.title}}</h3>
 <p>{{ticket.description}}</p>
 {% if ticket.image %}
-    <p class="ticket_img"img src="{{ticket.image.url}}"></p>
+    <p class="ticket_img"><img src="{{ ticket.image.url }}"></p>
 {% endif %}
