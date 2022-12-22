@@ -6,6 +6,7 @@ from PIL import Image
 
 
 class Ticket(models.Model):
+    '''create ticket'''
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -16,17 +17,20 @@ class Ticket(models.Model):
     IMAGE_MAX_SIZE = (300, 300)
 
     def resize_image(self):
+        '''fonction to sizing & save images'''
         if self.image:
             image = Image.open(self.image)
             image.thumbnail(self.IMAGE_MAX_SIZE)
             image.save(self.image.path)
 
     def save(self, *args, **kwargs):
+        '''backup function assigned to recorded images'''
         super().save(*args, **kwargs)
         self.resize_image()
 
 
 class UserFollows(models.Model):
+    '''creation and follow-up of users'''
     user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='user_following')
     followed_user = models.ForeignKey(to=AUTH_USER_MODEL,
@@ -34,10 +38,12 @@ class UserFollows(models.Model):
                                       related_name='followed_by')
 
     class Meta():
+        '''no duplication of follow-up'''
         unique_together=('user', 'followed_user')
 
 
 class Review(models.Model):
+    '''creation of answers to tickets'''
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(validators=
                                               [MinValueValidator(0),

@@ -8,7 +8,7 @@ from . import models, forms
 
 @login_required
 def home(request):
-    ''' recherche de ticket affilié au profil user & en fonction UserFollow '''
+    ''' search for tickets affiliated with the user profile & according to UserFollow'''
     profile_tickets = models.Ticket.objects.filter(user=request.user)
     follow_tickets = models.Ticket.objects.filter(
         user__in=models.UserFollows.objects.filter(
@@ -30,6 +30,7 @@ def home(request):
 
 @login_required
 def posts(request):
+    '''search & display of tickets & reviews only associated with the identified user '''
     tickets = models.Ticket.objects.filter(user=request.user)
     reviews = models.Review.objects.filter(user=request.user)
     tickets_and_reviews = sorted(chain(tickets, reviews),
@@ -42,6 +43,7 @@ def posts(request):
 
 @login_required
 def create_ticket(request):
+    '''ticket creation'''
     ticket_form = forms.TicketForm()
     if request.method == "POST":
         ticket_form = forms.TicketForm(request.POST, request.FILES)
@@ -55,6 +57,7 @@ def create_ticket(request):
 
 @login_required
 def create_review(request):
+    '''review creation'''
     ticket_form = forms.TicketForm()
     review_form = forms.ReviewForm()
     if request.method == "POST":
@@ -77,6 +80,7 @@ def create_review(request):
 
 @login_required
 def edit_review(request, review_id):
+    '''function to modify a review'''
     review = get_object_or_404(models.Review, id=review_id)
     edit_form = forms.ReviewForm(instance=review)
     if request.method == 'POST':
@@ -91,6 +95,7 @@ def edit_review(request, review_id):
 
 @login_required
 def delete_review(request, review_id):
+    '''delete review'''
     review = get_object_or_404(models.Review, id=review_id)
     if request.method == 'POST':
         review.delete()
@@ -100,6 +105,8 @@ def delete_review(request, review_id):
 
 @login_required
 def follow_users(request):
+    '''display of the followed users as well as those who follow.
+    Display & selection of users to follow'''
     form = forms.FollowUsersForm
     followed = models.UserFollows.objects.filter(
         user=request.user)
@@ -127,6 +134,7 @@ def follow_users(request):
 
 @login_required()
 def delete_followed(request, followed_user_id):
+    '''deleting a tracked user'''
     followed_user = get_object_or_404(models.UserFollows, id=followed_user_id)
     if request.method == 'POST':
         followed_user.delete()
@@ -138,6 +146,7 @@ def delete_followed(request, followed_user_id):
 
 @login_required
 def edit_ticket(request, ticket_id):
+    '''function to modify a ticket'''
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
     if request.method == 'POST':
@@ -152,6 +161,7 @@ def edit_ticket(request, ticket_id):
 
 @login_required
 def delete_ticket(request, ticket_id):
+    '''function to delete a ticket'''
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.method == 'POST':
         print('coucou')
@@ -162,6 +172,7 @@ def delete_ticket(request, ticket_id):
 
 @login_required
 def reply_to_ticket(request, ticket_id):
+    '''function creating a review in response to a ticket'''
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     review_form = forms.ReviewForm()
     if request.method == "POST":
