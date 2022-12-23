@@ -39,15 +39,15 @@ class UserFollows(models.Model):
 
     class Meta():
         '''no duplication of follow-up'''
-        unique_together=('user', 'followed_user')
+        unique_together = ('user', 'followed_user')
 
 
 class Review(models.Model):
     '''creation of answers to tickets'''
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
-    rating = models.PositiveSmallIntegerField(validators=
-                                              [MinValueValidator(0),
-                                               MaxValueValidator(5)])
+    rating = models.PositiveSmallIntegerField(validators=[
+        MinValueValidator(0), MaxValueValidator(5)
+    ])
     headline = models.CharField(max_length=128)
     body = models.CharField(max_length=8192, blank=True)
     user = models.ForeignKey(to=AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -8,7 +8,8 @@ from . import models, forms
 
 @login_required
 def home(request):
-    ''' search for tickets affiliated with the user profile & according to UserFollow'''
+    ''' search for tickets affiliated with the user
+     profile & according to UserFollow'''
     profile_tickets = models.Ticket.objects.filter(user=request.user)
     follow_tickets = models.Ticket.objects.filter(
         user__in=models.UserFollows.objects.filter(
@@ -22,7 +23,8 @@ def home(request):
     tickets_and_reviews = sorted(chain(profile_tickets, follow_tickets,
                                        profile_reviews, follow_reviews,
                                        other_reviews),
-                                 key=lambda instance: instance.time_created, reverse=True)
+                                 key=lambda instance: instance.time_created,
+                                 reverse=True)
     return render(request, 'home.html', context={
         'tickets_and_reviews': tickets_and_reviews
     })
@@ -30,7 +32,8 @@ def home(request):
 
 @login_required
 def posts(request):
-    '''search & display of tickets & reviews only associated with the identified user '''
+    '''search & display of tickets & reviews
+     only associated with the identified user '''
     tickets = models.Ticket.objects.filter(user=request.user)
     reviews = models.Review.objects.filter(user=request.user)
     tickets_and_reviews = sorted(chain(tickets, reviews),
@@ -85,7 +88,9 @@ def edit_review(request, review_id):
     edit_form = forms.ReviewForm(instance=review)
     if request.method == 'POST':
         if 'edit_review' in request.POST:
-            edit_form = forms.ReviewForm(request.POST, request.FILES, instance=review)
+            edit_form = forms.ReviewForm(request.POST,
+                                         request.FILES,
+                                         instance=review)
             if edit_form.is_valid():
                 review = edit_form.save(commit=False)
                 review.save()
@@ -128,7 +133,9 @@ def follow_users(request):
                           })
     return render(request, 'followUser.html',
                   context={
-                      'form': form, 'followed': followed, 'following': following
+                      'form': form,
+                      'followed': followed,
+                      'following': following
                   })
 
 
@@ -151,7 +158,9 @@ def edit_ticket(request, ticket_id):
     edit_form = forms.TicketForm(instance=ticket)
     if request.method == 'POST':
         if 'edit_ticket' in request.POST:
-            edit_form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+            edit_form = forms.TicketForm(request.POST,
+                                         request.FILES,
+                                         instance=ticket)
             if edit_form.is_valid():
                 ticket = edit_form.save(commit=False)
                 ticket.save()

@@ -31,8 +31,9 @@ section {
 }
 
 .heading {
-    margin: 3% 0%;
-    padding: 3%;
+    border: 1px solid black;
+    margin: 2% 0%;
+    padding: 1%;
 }
 
 em {
@@ -47,12 +48,16 @@ h1 {
     font-size: 1.5rem;
     font-weight: 900;
     color: rgba(54, 114, 174);
+}
 
+.logo-auth img {
+    max-width: 16%;
+    margin: 10% 35%;
 }
 
 .logo img {
-    max-width: 30%;
-    margin: 10% 35%;
+    max-width: 20%;
+    margin: 6% 10%;
 }
 
 h2 {
@@ -67,18 +72,13 @@ h3 {
 
 .content {
     background-color: rgba(54, 114, 174, .20);
-    margin: 3% 2%;
+    margin: 2% 2%;
     text-align: center;
 }
 
-/*div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    border: 1px solid rgba(54, 114, 174);
-    background-color: whitesmoke;
-    margin: 1% 15%;
-}*/
+.hello em {
+    margin: 2% 2%;
+}
 
 sub {
     color: rgba(54, 114, 174);
@@ -118,7 +118,7 @@ form {
 }
 
 .star img {
-    max-width: 20%;
+    max-width: 15%;
     height: auto;
     margin: 2% 1%;
 }
@@ -126,7 +126,7 @@ form {
 .nav_list {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    margin: 5% 6%;
 }
 
 .nav_list li {
@@ -192,7 +192,7 @@ form {
 
 .foot_list li {
     display: inline-block;
-    margin: 6% 12%;
+    margin: 6% 10%;
     font-weight: bold;
     color: rgba(54, 114, 174, .60);
 }
@@ -200,14 +200,14 @@ form {
 .reviewers_buttons a {
     display: inline-block;
     justify-content: center;
-    margin: 0.1% 17.5%;
+    margin: 0.1% 18.5%;
 }
 
 .reviewers_buttons button{
-    font-size: 1.2rem;
+    font-size: 100%;
     font-family: "DIN Condensed", sans-serif;
     background-color: rgba(54, 114, 174, .30);
-    border-color: rgba(54, 114, 174);
+    border: 1.75px rgba(54, 114, 174);
     border-radius: .25rem;
 }
 
@@ -242,3 +242,4 @@ label {
     display: flex;
     flex-direction : row;
 }
+

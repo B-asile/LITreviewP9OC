@@ -6,6 +6,9 @@
         <a href="{% url 'reviews-create_review' %}"><button>Créer une critique</button></a>
     </nav>
     <div class="content">
+        {% if user.is_authenticated %}
+                <em class="hello">Hello {{request.user}}!</em>
+        {% endif %}
             {% for instance in tickets_and_reviews %}
                 <div class="ticket">{% if instance|model_type == 'Ticket' %}
                     {% include 'partials/heading_ticket_snippet.html' with ticket=instance %}
