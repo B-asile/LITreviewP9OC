@@ -8,3 +8,12 @@ Cette application executable localement peut être installée en suivant les ét
 5. Démarrer le serveur avec ```$ python manage.py runserver```.
 
 Lorsque le serveur fonctionne, après l'étape 5 de la procédure d'installation, vous pouvez vous rendre sur l'application via l'url de base [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+Afin de tester l'application quelques utilisateurs sont déjà enregistrer.
+
+&nbsp;
+
+
+La connection via ces utilisateurs se fait avec ces identifiants :
+1. nom d'utilisateur : coco / mot de passe : C'estSecret! 
+2. nom d'utilisateur : Rain / mot de passe : C'estSecret! 
+3. nom d'utilisateur : roger / mot de passe : C'estSecret! 
