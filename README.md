@@ -12,4 +12,9 @@ Afin de tester l'application quelques utilisateurs sont déjà enregistrer.
 La connection via ces utilisateurs se fait avec ces identifiants :
 1. nom d'utilisateur : coco / mot de passe : C'estSecret! 
 2. nom d'utilisateur : Rain / mot de passe : C'estSecret! 
-3. nom d'utilisateur : roger / mot de passe : C'estSecret! 
+3. nom d'utilisateur : roger / mot de passe : C'estSecret!
+
+ 
+6. pour couper le serveur local commande Ctrl + C dans le terminal
+
+7. Pour desactiver l'environnement virtuel commande:  ```$ deactivate``` dans le terminal.
