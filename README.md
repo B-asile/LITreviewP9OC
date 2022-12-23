@@ -5,7 +5,6 @@ Cette application executable localement peut être installée en suivant les ét
 2. Créer un environnement virtuel : se rendre à la racine du projet puis effectuer les commandes ```$ python -m venv env``` sous windows ou ```$ python3 -m venv env``` sous macos ou linux.
 3. Activer l'environnement virtuel avec ```$ env\Scripts\activate``` sous windows ou ```$ source env/bin/activate``` sous macos ou linux.
 4. Installer les dépendances du projet avec la commande ```$ pip install -r requirements.txt```.
-5. Installer les migrations avec les commandes ```python manage.py makemigrations``` puis ```python manage.py migrate```
-6. Démarrer le serveur avec ```$ python manage.py runserver```.
+5. Démarrer le serveur avec ```$ python manage.py runserver```.
 
-Lorsque le serveur fonctionne, après l'étape 6 de la procédure d'installation, vous pouvez vous rendre sur l'application via l'url de base [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+Lorsque le serveur fonctionne, après l'étape 5 de la procédure d'installation, vous pouvez vous rendre sur l'application via l'url de base [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
