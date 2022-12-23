@@ -4,6 +4,9 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
+            {% for message in messages %}
+            <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
         <button type="submit" >Confirmer</button>
     </form>
     <h2>Abonnement(s)</h2>
