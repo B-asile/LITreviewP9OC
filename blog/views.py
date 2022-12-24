@@ -124,16 +124,20 @@ def follow_users(request):
         try:
             if form.is_valid():
                 follow_users = form.save(commit=False)
-                if request.user == follow_users:
-                    raise IntegrityError()
+                #print(request.POST['followed_user'])
+                #print(request.user.id)
+                if str(request.user.id) == str(request.POST[
+                                                   'followed_user'
+                                               ]):
+                    raise IntegrityError
                 else:
                     follow_users.user = request.user
                     follow_users.save()
             return redirect('reviews-follow_user')
         except IntegrityError:
             messages.error(request,
-                           'vous êtes déjà abonné à cet utilisateur ou '
-                           'vous ne pouvez pas vous suivre!'
+                           'vous êtes déjà abonné à cet utilisateur ou'
+                           ' vous ne pouvez pas vous suivre!'
                            )
     return render(request, 'followUser.html',
                   context={
@@ -141,39 +145,6 @@ def follow_users(request):
                       'followed': followed,
                       'following': following
                   })
-
-
-'''
-@login_required
-def follow_users(request):
-    #display of the followed users as well as those who follow.
-    #Display & selection of users to follow
-    form = forms.FollowUsersForm
-    followed = models.UserFollows.objects.filter(
-        user=request.user)
-    following = models.UserFollows.objects.filter(
-        followed_user=request.user)
-    if request.method == 'POST':
-        form = forms.FollowUsersForm(request.POST)
-        try:
-            if form.is_valid():
-                follow_users = form.save(commit=False)
-                follow_users.user = request.user
-                follow_users.save()
-                return redirect('reviews-follow_user')
-        except:
-            return render(request, 'followUser.html',
-                          context={
-                              'form': form, 'error_message':
-                                  'vous êtes déjà abonné à cet utilisateur'
-                          })
-    return render(request, 'followUser.html',
-                  context={
-                      'form': form,
-                      'followed': followed,
-                      'following': following
-                  })
-'''
 
 
 @login_required()
