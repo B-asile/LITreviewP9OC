@@ -38,11 +38,21 @@ class ReviewForm(forms.ModelForm):
                   "body": "commentaire"
                   }
 
-
+'''
 class FollowUsersForm(forms.ModelForm):
+    
+    followed_user = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+        attrs={
+            'placeholder': "entrez un nom d'utilisateur"
+        }, )
+    )
+    
     class Meta:
         model = UserFollows
         fields = ['followed_user']
+'''
 
 
 class DeletePostForm(forms.Form):

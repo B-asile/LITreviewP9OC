@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Suivre des utilisateurs</h1>
-    <form method="post">
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <div class="search">
+        <form method="post" action="{% url 'reviews-follow_user' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Nom d'utilisateur">
+            {% for message in messages %}
+                <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+            <button type="submit">Confirmer</button>
+        </form>
+    </div>
+<!--    <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
             {% for message in messages %}
             <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
             {% endfor %}
         <button type="submit" >Confirmer</button>
-    </form>
+    </form>-->
     <h2>Abonnement(s)</h2>
     {% for follow_users in followed %}
     <div class="follow">

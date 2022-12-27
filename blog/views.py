@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
+from authentication.models import User
 from . import models, forms
 
 
@@ -110,10 +111,48 @@ def delete_review(request, review_id):
     return render(request, 'delete_review.html', context={'review': review})
 
 
-@login_required
 def follow_users(request):
     '''display of the followed users as well as those who follow.
-    Display & selection of users to follow'''
+        Display & selection of users to follow'''
+    main_user = models.UserFollows()
+    followed = models.UserFollows.objects.filter(
+        user=request.user)
+    following = models.UserFollows.objects.filter(
+        followed_user=request.user)
+    if request.method == 'POST':
+        try:
+            searched_user = request.POST.get('username')
+            check = 0
+            for find_user in User.objects.all():
+                if str(searched_user) == str(find_user):
+                    check = check + 1
+            if check > 0:
+                pass
+            else:
+                raise IntegrityError
+            followed_user = User.objects.get(
+                username=searched_user
+            )
+            main_user.followed_user = followed_user
+            if followed_user == request.user:
+                raise IntegrityError
+            else:
+                main_user.user = request.user
+                main_user.save()
+            return redirect('reviews-follow_user')
+        except IntegrityError:
+            messages.error(request,
+                           'erreur de saisie, veuillez recommencer'
+                           )
+    return render(request,'followUser.html', context={
+        'followed': followed,
+        'following': following
+    })
+
+
+''''
+@login_required
+def follow_users(request):
     form = forms.FollowUsersForm
     followed = models.UserFollows.objects.filter(
         user=request.user)
@@ -145,6 +184,7 @@ def follow_users(request):
                       'followed': followed,
                       'following': following
                   })
+'''
 
 
 @login_required()
